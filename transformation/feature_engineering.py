@@ -23,7 +23,7 @@ def classify_risk(score):
     else: return "Low"
 
 def engineer_features(weather, osm):
-    print("⏳ Computing daily aggregates...")
+    print(" Computing daily aggregates...")
     weather["date"] = weather["timestamp"].dt.date
     
     daily = weather.groupby(["city", "zone", "lat", "lon", "date"]).agg(
@@ -35,7 +35,7 @@ def engineer_features(weather, osm):
 
     daily = daily.sort_values(["city", "zone", "date"])
 
-    print("⏳ Computing rolling and lag features...")
+    print(" Computing rolling and lag features...")
     daily["rolling_3day_temp"] = (
         daily.groupby(["city", "zone"])["temperature"]
         .transform(lambda x: x.rolling(3, min_periods=1).mean())
