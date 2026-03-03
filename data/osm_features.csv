@@ -1,0 +1,25 @@
+city,zone,lat,lon,building_density,greenery_score,water_distance
+Delhi,Connaught Place,28.6315,77.2167,10.015,3.9,0.0193
+Delhi,Rohini,28.7041,77.1025,9.783,2.14,0.0336
+Delhi,Shahdara,28.6692,77.2889,6.904,3.02,0.0329
+Delhi,Dwarka,28.5921,77.046,12.305,2.87,0.0167
+Mumbai,Bandra,19.0596,72.8295,9.951,1.23,0.0305
+Mumbai,Dharavi,19.04,72.8557,11.454,1.52,0.025
+Mumbai,Borivali,19.2307,72.8567,7.601,1.57,0.0262
+Mumbai,Colaba,18.9067,72.8147,2.331,0.66,0.2174
+Chennai,Adyar,13.0012,80.2565,15.81,1.34,0.041
+Chennai,Ambattur,13.1143,80.1548,19.918,0.15,0.034
+Chennai,T Nagar,13.0418,80.2341,39.184,1.02,0.0323
+Chennai,Sholinganallur,12.901,80.2279,6.767,0.27,0.0382
+Kolkata,Salt Lake,22.5958,88.4133,52.83,2.42,0.0058
+Kolkata,Howrah,22.5958,88.2636,3.526,0.61,0.0152
+Kolkata,Park Street,22.5553,88.3512,28.603,1.16,0.0089
+Kolkata,Dum Dum,22.654,88.3985,47.984,0.32,0.0076
+Ahmedabad,Navrangpura,23.0395,72.5603,11.752,0.59,0.1136
+Ahmedabad,Maninagar,22.9973,72.6024,7.107,0.28,0.1163
+Ahmedabad,Chandkheda,23.1068,72.5878,6.961,0.13,0.082
+Ahmedabad,Vatva,22.9597,72.649,0.393,0.04,0.098
+Jaipur,Walled City,26.9239,75.8267,6.447,1.08,0.0521
+Jaipur,Mansarovar,26.8529,75.7694,21.181,1.05,0.1351
+Jaipur,Vaishali Nagar,26.9124,75.7318,0.741,0.68,0.1724
+Jaipur,Malviya Nagar,26.8541,75.8168,1.015,0.45,0.1111

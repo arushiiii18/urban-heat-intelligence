@@ -1,0 +1,7 @@
+venv/
+__pycache__/
+*.pyc
+.env
+data/historical_raw.parquet
+data/training_data.parquet
+cache/
