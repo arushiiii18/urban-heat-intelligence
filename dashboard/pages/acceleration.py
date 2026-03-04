@@ -13,17 +13,30 @@ def render():
     df = load_acceleration()
     zones_df = load_processed_zones()
 
+    # empty state guard
+    if df.empty:
+        st.divider()
+        st.warning(
+            "Warming trend data is not available yet. "
+            "This is computed from 5 years of historical climate records. "
+            "If you have just deployed the app, ensure `training_data.parquet` "
+            "is present and hit **Refresh Live Data** in the sidebar."
+        )
+        return
+
     df = df.merge(zones_df[["city", "zone", "risk_score", "risk_tier"]], on=["city", "zone"], how="left")
 
     accelerating = df[df["is_accelerating"] == 1]
-    high_risk_accelerating = accelerating[accelerating["risk_score"] >= 35]
 
     st.divider()
 
     col1, col2, col3 = st.columns(3)
     col1.metric("Zones Tracked", len(df))
     col2.metric("Accelerating Zones", int(df["is_accelerating"].sum()))
-    col3.metric("Fastest Warming Zone", df.sort_values("slope", ascending=False).iloc[0]["zone"])
+
+    #safe .iloc[0] only show if df is non-empty (guaranteed above)
+    fastest_zone = df.sort_values("slope", ascending=False).iloc[0]["zone"]
+    col3.metric("Fastest Warming Zone", fastest_zone)
 
     st.divider()
 
