@@ -3,11 +3,14 @@ import pandas as pd
 import pickle
 import os
 import sys
+from pathlib import Path
 from datetime import datetime, timezone
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from utils.zones import ALL_ZONES
 from utils.db import get_engine
-from sqlalchemy import text
+
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 FEATURES = [
     "temperature", "humidity", "wind_speed", "apparent_temperature",
@@ -56,14 +59,10 @@ def classify_risk(score):
     else: return "Low"
 
 def run():
-    osm = pd.read_csv("data/osm_features.csv")
-    with open("ml/artifacts/model.pkl", "rb") as f:
+    osm = pd.read_csv(BASE_DIR / "data" / "osm_features.csv")
+    with open(BASE_DIR / "ml" / "artifacts" / "model.pkl", "rb") as f:
         model = pickle.load(f)
     engine = get_engine()
-
-    with engine.connect() as conn:
-        conn.execute(text("DELETE FROM forecast_scores"))
-        conn.commit()
 
     all_records = []
     for z in ALL_ZONES:
@@ -101,8 +100,13 @@ def run():
         except Exception as e:
             print(f"    Failed: {e}")
 
+    if not all_records:
+        print("  No forecast records — check API or zone config")
+        return
+
+    # replace handles missing table + schema changes automatically
     df = pd.DataFrame(all_records)
-    df.to_sql("forecast_scores", engine, if_exists="append", index=False)
+    df.to_sql("forecast_scores", engine, if_exists="replace", index=False)
     print(f"\n Forecast scores written: {len(df)} rows")
     print(df[df["city"] == "Chennai"][["zone", "forecast_date", "predicted_risk", "risk_tier"]])
 

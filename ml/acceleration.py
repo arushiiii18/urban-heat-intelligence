@@ -8,7 +8,8 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from utils.db import get_engine
 from utils.zones import ALL_ZONES
-from sqlalchemy import text
+
+#absolute path so it works on ANY machine
 BASE_DIR = Path(__file__).resolve().parent.parent
 PARQUET_PATH = BASE_DIR / "data" / "training_data.parquet"
 
@@ -37,11 +38,13 @@ def _load_training_data(engine) -> pd.DataFrame:
 
 def compute_slopes() -> pd.DataFrame:
     engine = get_engine()
+
+    #load data
     df = _load_training_data(engine)
     df["date"] = pd.to_datetime(df["date"])
     df["year"] = df["date"].dt.year
 
-    # yearly averages per zone
+    #yearly averages per zone
     yearly = (
         df.groupby(["city", "zone", "year"])["temperature"]
         .mean()
@@ -49,7 +52,7 @@ def compute_slopes() -> pd.DataFrame:
         .rename(columns={"temperature": "avg_temp"})
     )
 
-    #linear regression per zone
+    #linear regression per zone 
     records = []
     skipped = []
 
@@ -86,11 +89,13 @@ def compute_slopes() -> pd.DataFrame:
 
     df_slopes = pd.DataFrame(records)
 
+    #acceleration flag: top 20% slope AND statistically significant
     threshold = df_slopes["slope"].quantile(0.80)
     df_slopes["is_accelerating"] = (
         (df_slopes["slope"] >= threshold) & (df_slopes["p_value"] < 0.05)
     ).astype(int)
 
+    #log 
     print("\n  Heat Acceleration Rankings:")
     print(
         df_slopes[["city", "zone", "slope", "r_squared", "p_value", "is_accelerating"]]
@@ -100,6 +105,7 @@ def compute_slopes() -> pd.DataFrame:
     print(f"\n  Acceleration threshold (top 20%): {round(threshold, 4)}°C/year")
     print(f"  Accelerating zones (slope ≥ threshold & p < 0.05): {df_slopes['is_accelerating'].sum()}")
 
+    #persist
     df_slopes.to_sql("acceleration_slopes", engine, if_exists="replace", index=False)
     print("  Acceleration slopes saved to DB\n")
 

@@ -1,3 +1,6 @@
+# LOCAL USE ONLY — Streamlit Cloud does not run this file.
+# On cloud, the refresh button in the sidebar handles pipeline execution.
+# Run locally with: python main.py
 import subprocess
 import sys
 import os
