@@ -2,13 +2,13 @@
 
 A geospatial ML system for real-time urban heat risk scoring across 24 zones in 6 Indian cities, built as a decision-support tool for urban planners, climate researchers, and policy teams.
 
-**Live Demo — [link after deployment]**
+**Live Demo — [urban-heat-intelligence.streamlit.app](https://urban-heat-intelligence.streamlit.app)**
 
 ---
 
-![City Risk Map](assets/screenshot_policy_simulator.png)
-
 ![Zone Deep Dive](assets/screenshot_zone_dive.png)
+
+![Policy Simulator](assets/screenshot_policy_simulator.png)
 
 ---
 
